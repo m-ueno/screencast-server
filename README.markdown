@@ -10,4 +10,4 @@ In [OBS](https://obsproject.com) settings, set Stream URL `rtmp://<server>:1935/
 
 ## To watch
 
-Open `http://<server>:8080/<Stream key>`.
+Open `http://<server>:8080?key=<Stream key>`.

@@ -4,47 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cast</title>
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+    integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+    crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <h2>Cast viewer</h2>
-
   <h3>Usage</h3>
 
-  <p>Access <a href="#">http://theserver/?key=[key]</a> and video streaming start.
-  </p>
-  <p>
-    <code>key</code> is a sharedkey between broadcaster and subscribers.
-  </p>
+  <p>Access <a href="#">http://theserver/?key=[Stream key]</a> and streaming start.</p>
 
-  <label>input key and press enter
-    <input id="keybox" type="text" value="" placeholder="stream_id"/>
-  </label>
-  <video width="720" height="450" controls id="video"></video>
+  <details>
+    <summary>More...</summary>
+    <p>
+      <tt>Stream key</tt> is a sharedkey between broadcaster and subscribers.
+    </p>
+
+    <h4>To broadcast</h4>
+    <ul>
+      <li>
+        In <a href="https://obsproject.com">OBS</a> settings, set Stream URL <code>rtmp://server:1935/live</code> and <code>Stream key</code>.
+      </li>
+    </ul>
+
+  </details>
+
   <hr />
 
-  <script>
-    if (Hls.isSupported()) {
-      var video = document.getElementById('video');
-      var hls = new Hls();
+  <div class="embed-responsive embed-responsive-16by9">
+    <video id="video" controls></video>
+  </div>
 
-      const streamKey = new URLSearchParams(window.location.search).get('key')
+  <script src="/index.js"></script>
 
-      hls.loadSource(`/hls/${streamKey}.m3u8`)
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, function () {
-        video.play();
-      });
-    }
-    const keyBox = document.getElementById("keybox")
-    keyBox.addEventListener('keypress', ev => {
-      if (ev.keyCode == 13) {
-        const key = keyBox.value
-        document.location.href = `${document.location.origin}/?key=${key}`
-      }
-    })
-  </script>
 </body>
 
 </html>
