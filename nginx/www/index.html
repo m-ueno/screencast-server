@@ -1,0 +1,50 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cast</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+
+<body>
+  <h2>Cast viewer</h2>
+
+  <h3>Usage</h3>
+
+  <p>Access <a href="#">http://theserver/?key=[key]</a> and video streaming start.
+  </p>
+  <p>
+    <code>key</code> is a sharedkey between broadcaster and subscribers.
+  </p>
+
+  <label>input key and press enter
+    <input id="keybox" type="text" value="" placeholder="stream_id"/>
+  </label>
+  <video width="720" height="450" controls id="video"></video>
+  <hr />
+
+  <script>
+    if (Hls.isSupported()) {
+      var video = document.getElementById('video');
+      var hls = new Hls();
+
+      const streamKey = new URLSearchParams(window.location.search).get('key')
+
+      hls.loadSource(`/hls/${streamKey}.m3u8`)
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        video.play();
+      });
+    }
+    const keyBox = document.getElementById("keybox")
+    keyBox.addEventListener('keypress', ev => {
+      if (ev.keyCode == 13) {
+        const key = keyBox.value
+        document.location.href = `${document.location.origin}/?key=${key}`
+      }
+    })
+  </script>
+</body>
+
+</html>
